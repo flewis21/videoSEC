@@ -1,3 +1,52 @@
+var doGet = function (e) {
+  var foobarr = e.parameter["func"] || "renderFile";
+  var libName = "app";
+  var libFunc = foobarr;
+  var rndPage = [
+    `index proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`,
+  ]
+    .toString()
+    .split(" ")[
+    Math.floor(
+      Math.random() *
+        Math.floor(
+          [
+            `index proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`,
+          ]
+            .toString()
+            .split(" ").length,
+        ),
+    )
+  ];
+  args = e.parameter["args"] || ["jFundamentals"];
+  return renderTemplate(
+    this[libName].contentApp(`<?!= appL ?> `, {
+      appL: this[libName][
+        foobarr ||
+          HtmlService.createHtmlOutput(
+            `
+              <script id="sipocDogetScript1">
+                document.getElementById("appList").value
+              </script>
+              `,
+          ).getContent()
+      ].apply(this, [
+        args ||
+          HtmlService.createHtmlOutput(
+            `
+              <script id="sipocDogetScript3">
+                document.getElementById("username").value
+              </script>
+              `,
+          ).getContent(),
+      ]),
+    }),
+    {
+      e: e,
+    },
+  );
+};
+
 function tempCodeX(e) {
   console.log(JSON.stringify(e));
   const randomKey = Math.floor(Math.random() * Math.floor(12000)); // Math.floor(Math.random())
@@ -11,17 +60,17 @@ function tempCodeX(e) {
   const randomTitle = uniqueKey[1][randomKey]["title"];
   const html = app.contentApp(
     `<!DOCTYPE html>
-  <html id="test">
-    <head>
-      <?!= styleHtml() ?>
-    </head>
-    <body class="green">
-      <div><h1 class="blue receipt"><?!= myRandoms ?></h1></div>
-      <div class="receipt red" id="vids">
-        <?!= videoPlayer(myRandoms) ?>
-      </div>
-    </body>
-  </html>`,
+      <html id="test">
+        <head>
+          <?!= styleHtml() ?>
+        </head>
+        <body class="green">
+          <div><h1 class="blue receipt"><?!= myRandoms ?></h1></div>
+          <div class="receipt red" id="vids">
+            <?!= videoPlayer(myRandoms) ?>
+          </div>
+        </body>
+      </html>`,
     { myRandoms: randomTitle },
   ); //Global object closed
   return app.renderTemplate(html);
@@ -43,21 +92,12 @@ var tempCodeY = function (e) {
   return Route["default"](e);
 };
 
-function doGet(e) {
-  var foobarr = e.parameter["func"] || "app.dtlsInvestor";
-  var arr = [foobarr].toString().split(".");
-  var libName = arr[0];
-  var libFunc = arr[1];
-  args = [e.parameter["args"]] || [
-    "bing.com",
-    null,
-    { muteHttpExceptions: true },
-  ];
-  return app.renderTemplate(
-    app.contentApp(this[libName][libFunc].apply(this, args)),
-    { e: e },
-  );
-}
+var runBoilerplate = function (func, args) {
+  var libName = "app";
+  var libFunc = func || "doGet";
+  args = args || [];
+  return this[libName][libFunc].apply(this, args);
+};
 
 var runAll = function (func, args) {
   var arr = func.split(".");
