@@ -3,7 +3,7 @@ function tempCodeX(e) {
   const randomKey = Math.floor(Math.random() * Math.floor(12000)); // Math.floor(Math.random())
   const uniqueKey = [
     Utilities.jsonParse(
-      app.urlDataSource("https://www.sec.gov/files/company_tickers.json")
+      app.urlDataSource("https://www.sec.gov/files/company_tickers.json"),
     ),
   ]
     .entries()
@@ -22,7 +22,7 @@ function tempCodeX(e) {
       </div>
     </body>
   </html>`,
-    { myRandoms: randomTitle }
+    { myRandoms: randomTitle },
   ); //Global object closed
   return app.renderTemplate(html);
 } //webApp closed
@@ -55,7 +55,7 @@ function doGet(e) {
   ];
   return app.renderTemplate(
     app.contentApp(this[libName][libFunc].apply(this, args)),
-    { e: e }
+    { e: e },
   );
 }
 
