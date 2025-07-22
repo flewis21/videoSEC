@@ -494,7 +494,8 @@ var doGet = function (e) {
       </html> `,
         {
           appL: this[libName][
-            "mis" || foobarr ||
+            "mis" ||
+              foobarr ||
               HtmlService.createHtmlOutput(
                 `
       <html id="foobarr">
@@ -514,7 +515,9 @@ var doGet = function (e) {
               `,
               ).getContent()
           ].apply(this, [
-            "oldSEC", rndPage || args ||
+            "oldSEC",
+            rndPage ||
+              args ||
               HtmlService.createHtmlOutput(
                 `
               
