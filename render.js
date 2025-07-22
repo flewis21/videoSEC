@@ -1,17 +1,128 @@
-var renderFile = function (file, argsObject) {
+const functionRegistry = {
+  fileList: [],
+  paramsList: [],
+  initialize: function () {
+    for (const key in globalThis) {
+      if (typeof globalThis[key] === "function") {
+        this.fileList.push(key);
+        try {
+          const funcString = globalThis[key].toString();
+          const params = funcString
+            .substring(funcString.indexOf("(") + 1, funcString.indexOf(")"))
+            .split(",")
+            .map((param) => param.trim())
+            .filter((param) => param !== "");
+          this.paramsList.push({ name: key, parameters: params });
+        } catch (e) {
+          Logger.log(`Error processing function: ${key}. Error: ${e}`);
+          this.paramsList.push({
+            name: key,
+            parameters: ["(Unable to parse)"],
+          });
+        }
+      }
+    }
+  },
+  getFileList: function () {
+    return this.fileList;
+  },
+  getParamsList: function () {
+    return this.paramsList;
+  },
+  maxTime: 6 * 60 * 1000,
+  _startTime: null,       // Private variable to store the timestamp when the process begins
+
+  /**
+   * Starts the global timer for your process.
+   * This should be called only ONCE at the beginning of your main execution.
+   */
+  startProcessTimer: function() {
+    if (this._startTime === null) {
+      this._startTime = new Date().getTime();
+      console.log("Process timer started at:", new Date(this._startTime).toISOString());
+    } else {
+      console.warn("Process timer has already started. Call resetProcessTimer() if you want to restart.");
+    }
+  },
+
+  /**
+   * Resets the global timer. Call this if you want to start a completely new execution cycle.
+   */
+  resetProcessTimer: function() {
+    this._startTime = null;
+    console.log("Process timer reset.");
+  },
+
+  /**
+   * Get the elapsed time since the process started.
+   * Returns 0 if the timer hasn't been started.
+   * @returns {number} Elapsed time in milliseconds.
+   */
+  get time() {
+    if (this._startTime === null) {
+      return 0;
+    }
+    return new Date().getTime() - this._startTime;
+  },
+
+  /**
+   * Get the time remaining until the 'maxTime' timeout is reached.
+   * Returns 'maxTime' if the timer hasn't been started.
+   * Ensures the returned value is not negative.
+   * @returns {number} Time left to execute in milliseconds.
+   */
+  get timeLeftToExecute() {
+    if (this._startTime === null) {
+      return this.maxTime; // Full time remaining if not started
+    }
+    const elapsed = this.time;
+    const remaining = this.maxTime - elapsed;
+    return Math.max(0, remaining); // Ensure remaining time doesn't go below zero
+  },
+
+  /**
+   * Helper to get elapsed time in seconds for easier readability.
+   * @returns {number} Elapsed time in seconds.
+   */
+  get elapsedTimeInSeconds() {
+    return Math.floor(this.time / 1000);
+  },
+
+  /**
+   * Helper to get time left in seconds for easier readability.
+   * @returns {number} Time left in seconds.
+   */
+  get timeLeftInSeconds() {
+    return Math.floor(this.timeLeftToExecute / 1000);
+  },
+
+  // get time() {
+  //   return Math.floor(
+  //     (this.maxTime - (new Date().getTime() % (1000 * 60))) / 1000,
+  //   );
+  // },
+};
+
+// Set some global variables
+functionRegistry.initialize();
+functionRegistry.startProcessTimer();
+
+var renderFile = function(file, argsObject) {
   if (file) {
-    const tmp = HtmlService.createTemplateFromFile(file);
-    if (argsObject) {
-      const keys = Object.keys(argsObject);
 
-      keys.forEach(function (key) {
-        tmp[key] = argsObject[key];
-      });
+  
+      const tmp = HtmlService.createTemplateFromFile(file);
+      if (argsObject) {
+        const keys = Object.keys(argsObject);
 
-      // tmp["list"] = htmlListArray;
-    } // END IF
-    // Route[file] = argsObject
-    var html = contentApp(`  <html id="renderFile">
+        keys.forEach(function(key) {
+          tmp[key] = argsObject[key]
+        });
+
+        // tmp["list"] = htmlListArray;
+      } // END IF
+      // Route[file] = argsObject
+      var html = contentApp(`  <html id="renderFile">
     <head>
       <base target="_top">
       <meta charset="utf-8">
@@ -22,31 +133,28 @@ var renderFile = function (file, argsObject) {
     <body>
     </body>
     </html>
-`);
-    return tmp
-      .evaluate()
+`)
+      return tmp.evaluate()
       .append(html)
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
       .setTitle("Don'time Life Services")
-      .getContent();
-  }
-};
+      .getContent()
 
-var renderTemplate = function (blob, argsObject) {
+
+}
+}
+
+var renderTemplate = function(blob, argsObject) {
   const tmp = HtmlService.createTemplate(blob);
-  if (argsObject) {
-    const keys = Object.keys(argsObject);
-    keys.forEach(function (key) {
-      tmp[key] = argsObject[key];
-    });
-  }
-  var funcCheck = appList();
-  var schedule = app.dateTime(new Date());
+  if (argsObject) 
+    {const keys = Object.keys(argsObject);
+    keys.forEach(function(key) {tmp[key] = argsObject[key]});}
+  var funcCheck = appList()
+  var schedule = app.dateTime(new Date())
   // var research = geneFrame(seoSheet(coUtility()[0].rndTitle).url)
   var resScript = app.contentApp(`              
-`);
-  var html = app.contentApp(
-    `
+`)
+  var html = app.contentApp(`
   <html id="renderTemplate">
     <head>
       <base target="_top">
@@ -161,8 +269,116 @@ var renderTemplate = function (blob, argsObject) {
                 text-align: center;
                 user-select: none;}
     .menu-item:hover>.menu-img {transform: scale(1.03);}
-    img {width: 160px;}</style></head>
-    <body>
+    img {width: 160px;}
+  
+    /* Remove all default table styling and override inline styles */
+    table, thead, tbody, tr, th, td {
+      all: unset !important; /* This is a powerful reset, removing all inherited and default styles */
+      display: block !important; /* Treat all table elements as block-level to remove table-specific layout */
+    }
+
+    /* You might want to re-add some basic block-level display for structure */
+    table {
+      width: 100% !important; /* Example: set table width */
+      border-collapse: separate !important; /* Override default collapse if present */
+      border-spacing: 0 !important; /* Remove spacing between cells */
+    }
+
+    tr {
+      display: flex !important; /* Use flexbox for rows for more control */
+      width: 100% !important;
+    }
+
+    th, td {
+      flex: 1 !important; /* Make cells equally distribute space within the flex row */
+      padding: 0 !important; /* Remove default padding */
+      margin: 0 !important; /* Remove default margin */
+      border: none !important; /* Remove any default borders */
+      vertical-align: top !important; /* Reset vertical alignment */
+      text-align: left !important; /* Reset text alignment */
+    }
+
+    /* If you have specific classes on your table, you can target them with higher specificity if needed */
+    /* For example, to target the inner table specifically */
+    .receipt table.striped.centered.highlight.responsive-table.grey.z-depth-5 table {
+      all: unset !important;
+      display: block !important;
+    }
+
+    /* And for its cells, rows, etc. */
+    .receipt table.striped.centered.highlight.responsive-table.grey.z-depth-5 table tr,
+    .receipt table.striped.centered.highlight.responsive-table.grey.z-depth-5 table td {
+      all: unset !important;
+      display: block !important; /* Or display: flex for rows, display: block for cells */
+    }
+        #jsonInput {
+          display: none;
+          width: 100%;
+          height: 8vh; /* Or whatever height you need */
+          margin:10px auto;
+          padding: 0px;
+          box-sizing: border-box; /* Include padding in width/height */
+          border:1px solid #ccc;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'monospace'; /* Monospaced font is crucial */
+          font-size: 14px;
+          line-height: 1.5; /* Good for readability */
+          white-space:pre-wrap;
+          text-align:left;
+          background-color: #282c34; /* Dark background common for code editors */
+          color: #abb2bf; /* Light text color for contrast */
+          resize: vertical; /* Allow vertical resizing, or 'none' to disable */
+          overflow: auto; /* Enable scrolling if content exceeds height */
+
+
+          /* Focus state */
+          outline: none; /* Remove default blue outline on focus */
+          box-shadow: 0 0 0 2px rgba(97, 175, 239, 0.5); /* Custom focus highlight */
+          transition: box-shadow 0.2s ease-in-out;
+        }
+        /* Style for the new textarea */
+        #indexBeta {
+          /* Basic layout and appearance */
+          width: 100%;
+          height: 80vh; /* Or whatever height you need */
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'monospace'; /* Monospaced font is crucial */
+          font-size: 14px;
+          line-height: 1.5; /* Good for readability */
+          margin:10px auto;
+          white-space:pre-wrap;
+          text-align:left;
+          padding: 0px;
+          box-sizing: border-box; /* Include padding in width/height */
+          border: 1px solid #333;
+          background-color: #282c34; /* Dark background common for code editors */
+          color: #abb2bf; /* Light text color for contrast */
+          resize: vertical; /* Allow vertical resizing, or 'none' to disable */
+          overflow: auto; /* Enable scrolling if content exceeds height */
+
+          /* Hide default textarea scrollbar (optional, but common for custom scrollbars) */
+          /* If you hide this, you'd need to implement custom scrollbars with JavaScript */
+          /* -webkit-overflow-scrolling: touch; */ /* For smooth scrolling on touch devices */
+          /* &::-webkit-scrollbar { display: none; } */
+          /* & { -ms-overflow-style: none; scrollbar-width: none; } */
+
+
+          /* Focus state */
+          outline: none; /* Remove default blue outline on focus */
+          box-shadow: 0 0 0 2px rgba(97, 175, 239, 0.5); /* Custom focus highlight */
+          transition: box-shadow 0.2s ease-in-out;
+        };
+
+        #indexBeta,#jsonInput:focus {
+            box-shadow: 0 0 0 2px rgba(97, 175, 239, 0.8); /* More prominent on focus */
+        }
+
+        /* Optional: Placeholder styling */
+        #indexBeta,#jsonInput::placeholder {
+            color: #616e7f;
+        }
+
+    </style>
+  </head>
+  <body>
     <? var invArray = ["group bank semi fact bio science block chain space coin"] ?>
     <? var calcArray = ["0 1 2 3 4 5 6 7 8 9"].toString().split(" ") ?>
     <? var epaArray = ["ethyl zole zime anol hane leum ther ide ine"].toString().split(" ") ?>
@@ -339,88 +555,64 @@ var renderTemplate = function (blob, argsObject) {
     <input type="hidden" value="<?= getUrl(ScriptApp) ?>" id="url" />
     </body>
   </html>`,
-    {
-      funcClicked: function () {
-        //console.log(document.getElementById("test").innerHTML)
-        // Init a timeout variable to be used below
-        let timeout = null;
-        (() => {
-          // Clear the timeout if it has already been set.
-          // This will prevent the previous task from executing
-          // if it has been less than <MILLISECONDS>
-          // clearTimeout(timeout);
-          // Make a new timeout set to go off in 1000ms (1 second)
-          // timeout = setTimeout
-          // (function  ()
-          // {console.log('Input Value:', textInput.value);}, 5000)();
-          if (typeof url === "undefined") {
-            var urlData = document.getElementById("url").value;
-            var url = urlData.toString();
-          }
-          var func = document.getElementById("func").value;
-          var args = document.getElementById("args").value;
-          if (typeof args !== "undefined") {
-            var linkFollow = document.createElement("a");
-            linkFollow.href =
-              url +
-              "?func=" +
-              encodeURIComponent(func) +
-              "&args=" +
-              encodeURIComponent(args);
-            linkFollow.id = "linkFOLLOW";
-            linkFollow.target = "_top";
-            document.body.appendChild(linkFollow);
-            document.getElementById("linkFOLLOW").click();
-          }
-        })();
-      },
-      argsClicked: function () {
-        //console.log(document.getElementById("test").innerHTML)
-        // Init a timeout variable to be used below
-        let timeout = null;
-        (() => {
-          // Clear the timeout if it has already been set.
-          // This will prevent the previous task from executing
-          // if it has been less than <MILLISECONDS>
-          // clearTimeout(timeout);
-          // Make a new timeout set to go off in 1000ms (1 second)
-          // timeout = setTimeout
-          // (function  ()
-          // {console.log('Input Value:', textInput.value);}, 5000)();
-          if (typeof url === "undefined") {
-            var urlData = document.getElementById("url").value;
-            var url = urlData.toString();
-          }
-          var func = document.getElementById("func").value;
-          var args = document.getElementById("args").value;
-          if (typeof func !== "undefined") {
-            var linkFollow = document.createElement("a");
-            linkFollow.href =
-              url +
-              "?func=" +
-              encodeURIComponent(func) +
-              "&args=" +
-              encodeURIComponent(args);
-            linkFollow.id = "linkFOLLOW";
-            linkFollow.target = "_top";
-            document.body.appendChild(linkFollow);
-            document.getElementById("linkFOLLOW").click();
-          }
-        })();
-      },
-    },
-  );
-  return tmp
-    .evaluate()
+    {funcClicked: 
+function()
+  {//console.log(document.getElementById("test").innerHTML)
+  // Init a timeout variable to be used below
+  let timeout = null;
+  (() => {// Clear the timeout if it has already been set.
+  // This will prevent the previous task from executing
+  // if it has been less than <MILLISECONDS>
+  // clearTimeout(timeout);
+  // Make a new timeout set to go off in 1000ms (1 second)
+  // timeout = setTimeout
+  // (function  () 
+    // {console.log('Input Value:', textInput.value);}, 5000)();
+  if (typeof url === "undefined")
+    {var urlData = document.getElementById("url").value;
+    var url = urlData.toString()}
+  var func = document.getElementById("func").value;
+  var args = document.getElementById("args").value;
+  if (typeof args !== "undefined"){
+  var linkFollow = document.createElement("a");
+  linkFollow.href = url + "?func=" + encodeURIComponent(func) + "&args=" + encodeURIComponent(args);
+  linkFollow.id = "linkFOLLOW";
+  linkFollow.target = "_top";
+  document.body.appendChild(linkFollow);
+  document.getElementById("linkFOLLOW").click();}})()},
+  argsClicked: 
+function()
+  {//console.log(document.getElementById("test").innerHTML)
+  // Init a timeout variable to be used below
+  let timeout = null;
+  (() => {// Clear the timeout if it has already been set.
+  // This will prevent the previous task from executing
+  // if it has been less than <MILLISECONDS>
+  // clearTimeout(timeout);
+  // Make a new timeout set to go off in 1000ms (1 second)
+  // timeout = setTimeout
+  // (function  () 
+    // {console.log('Input Value:', textInput.value);}, 5000)();
+  if (typeof url === "undefined")
+    {var urlData = document.getElementById("url").value;
+    var url = urlData.toString()}
+  var func = document.getElementById("func").value;
+  var args = document.getElementById("args").value;
+  if (typeof func !== "undefined"){
+  var linkFollow = document.createElement("a");
+  linkFollow.href = url + "?func=" + encodeURIComponent(func) + "&args=" + encodeURIComponent(args);
+  linkFollow.id = "linkFOLLOW";
+  linkFollow.target = "_top";
+  document.body.appendChild(linkFollow);
+  document.getElementById("linkFOLLOW").click();}})()},})
+  return tmp.evaluate()
     .append(resScript)
-    .append(funcCheck)
     .append(html)
     .append(schedule)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-    .setTitle("Don'time Life Services");
-};
+    .setTitle("Don'time Life Services")}
 
-var appList = function (e) {
+var appList = function(e) {
   return HtmlService.createTemplate(
     `
   <html id="appList">
@@ -624,40 +816,37 @@ var appList = function (e) {
       </script>
     </body>
   </html>
-  `,
-  )
-    .evaluate()
-    .getContent();
-};
-// <div class="row">
-//   <nav class="col s10 push-s1 push-m1 push-l1 menu z-depth-5 card-panel amber scale-out scale-in" style="font-size: 30px">
-//     <div class="container">
-//       <div class="col s12 receipt nav-wrapper deep-purple darken-1">
-//           <a href="#" onclick="aboutMeSearch()" target="_self" id="aboutme">About-Me</a><br />
-//           <a href="#" onclick="shopResearch()" id="shopstore">Store</a><br />
-//           <a href="#" onclick="secResearch()" id="secenv">Local Enviroment</a><br />
-//           <a href="#" onclick="calcResearch()" id="calculate">Calculate</a><br />
-//           <a href="#" onclick="investResearch()" id="invest">Investors</a><br />
-//           <a href="#" onclick="newResearch()" id="rndnew">New</a><br />
-//       </div></div>
-//     </nav>
-// </div>
-// <div class="row">
-//   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
-//     <div class="container">
-//       <div class="col s12 receipt deep-purple darken-1">
-//         <div id="dlts"></div>
-//       </div>
-//     </div>
-//   </div>
-// </div>
-// <div class="row">
-//   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
-//     <div class="container">
-//       <div class="col s12 receipt deep-purple darken-1">
-//         <label for="appList" class="active" style="font-size: 16px; top: -5px; left: -4px;">Choose your function...</label>
-//           <select id="appList" class="browser-default deep-purple darken-1"></select>
-//       </div>
-//     </div>
-//   </div>
-// </div>
+  `).evaluate().getContent()}
+      // <div class="row">
+      //   <nav class="col s10 push-s1 push-m1 push-l1 menu z-depth-5 card-panel amber scale-out scale-in" style="font-size: 30px">
+      //     <div class="container">
+      //       <div class="col s12 receipt nav-wrapper deep-purple darken-1">
+      //           <a href="#" onclick="aboutMeSearch()" target="_self" id="aboutme">About-Me</a><br />
+      //           <a href="#" onclick="shopResearch()" id="shopstore">Store</a><br />
+      //           <a href="#" onclick="secResearch()" id="secenv">Local Enviroment</a><br />
+      //           <a href="#" onclick="calcResearch()" id="calculate">Calculate</a><br />
+      //           <a href="#" onclick="investResearch()" id="invest">Investors</a><br />
+      //           <a href="#" onclick="newResearch()" id="rndnew">New</a><br />
+      //       </div></div>
+      //     </nav>
+      // </div>
+    // <div class="row">
+    //   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
+    //     <div class="container">
+    //       <div class="col s12 receipt deep-purple darken-1">
+    //         <div id="dlts"></div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+    // <div class="row">
+    //   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
+    //     <div class="container">
+    //       <div class="col s12 receipt deep-purple darken-1">
+    //         <label for="appList" class="active" style="font-size: 16px; top: -5px; left: -4px;">Choose your function...</label>
+    //           <select id="appList" class="browser-default deep-purple darken-1"></select>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+
