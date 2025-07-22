@@ -460,6 +460,9 @@ var doGet = function (e) {
         <body class="z-depth-5 content-section responsive-section black center">
           <div id="coApp" class="container">
             <?!= appL["index"]? appL["index"]["dataStr"]:appL["app"] ?>
+            if (<?!= !appL["index"]["dataStr"] ?>) {
+              <?!= appL["app"] ?>
+            }
           </div>
           <div class="row">
             <div class="col s10 l10 m10 z-depth-5 push-m2 push-s2 push-l2">
@@ -481,7 +484,9 @@ var doGet = function (e) {
           <script>
             console.log(<?!= appL["index"]? appL["index"]["url"].length:appL.length ?>)
             if (<?!= appL["index"]? appL["index"]["url"].length === 99:appL.length === 99 ?>) {
-              document.getElementById("coApp").innerHTML = ""
+              if (<?!= !appL["app"] ?>) {
+                document.getElementById("coApp").innerHTML = ""
+              }
               document.getElementById("indexBeta").src = <?= appL["index"]? appL["index"]["url"]:appL ?>}
             else {document.getElementById("indexBeta").src = "https://www.clubhouse.com/@fabianlewis?utm_medium=ch_profile&utm_campaign=lhTUtHb2bYqPN3w8EEB7FQ-247242"}
           </script>
@@ -489,7 +494,7 @@ var doGet = function (e) {
       </html> `,
         {
           appL: this[libName][
-            foobarr ||
+            "mis" || foobarr ||
               HtmlService.createHtmlOutput(
                 `
       <html id="foobarr">
@@ -509,7 +514,7 @@ var doGet = function (e) {
               `,
               ).getContent()
           ].apply(this, [
-            args ||
+            "oldSEC", rndPage || args ||
               HtmlService.createHtmlOutput(
                 `
               
