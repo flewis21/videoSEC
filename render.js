@@ -145,15 +145,18 @@ var renderFile = function(file, argsObject) {
 }
 
 var renderTemplate = function(blob, argsObject) {
+  console.log("SIPOC render: line 148")
   const tmp = HtmlService.createTemplate(blob);
   if (argsObject) 
     {const keys = Object.keys(argsObject);
     keys.forEach(function(key) {tmp[key] = argsObject[key]});}
+  console.log("SIPOC render: line 153")
   var funcCheck = appList()
   var schedule = app.dateTime(new Date())
   // var research = geneFrame(seoSheet(coUtility()[0].rndTitle).url)
   var resScript = app.contentApp(`              
 `)
+  console.log("SIPOC render: line 159")
   var html = app.contentApp(`
   <html id="renderTemplate">
     <head>

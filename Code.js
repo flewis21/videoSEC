@@ -1,23 +1,30 @@
 var doGet = function(e) {
-  var foobarr =  e.parameter["func"] || "renderFile";
   var libName = "app";
+  var funcUno = e.parameter["func"];
+  console.log("e.parameter['args'] before funcDos:", e.parameter["args"]);
+  var funcDos = e.parameter["args"];
+  console.log("e.parameter['args'] after funcDos:", e.parameter["args"]);
+  console.log("funcDos:", funcDos);
+  var foobarr =  funcUno || "renderFile";
   var libFunc = foobarr;
-  var rndPage = [`index proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`].toString().split(" ")[Math.floor(Math.random() * (Math.floor([`index proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`].toString().split(" ").length)))]
+  var htmlList = [`untitled proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`]
+  var rndPage = htmlList.toString().split(" ")[Math.floor(Math.random() * (Math.floor(htmlList.toString().split(" ").length)))];
   args = e.parameter["args"] || ["checkOnDay"];
-  var template = HtmlService.createTemplate(`<!DOCTYPE html>
-<html>
-  <head>
-    <base target="_top">
-    <?!= style ?>
-  </head>
-  <body>
-    <table><tr><td>
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf7eQty92OWCEw_YZ4Irf-PpjYboaKysgVLIBnxESn-TcRfnQ/viewform?embedded=true" width="640" height="3686" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-    </td><td>
-    <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSq6HBWVkXDbQatjrtodxKlGSDJkrj0Uc70jRN6vhzDmvW3RPjysRGhnjCyGZ77vaKLl0IVqB3UDQO3/embed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="3715" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-      </td></tr></table>
-  </body>
-</html>
+  var template = HtmlService.createTemplate(`
+  <!DOCTYPE html>
+    <html>
+      <head>
+        <base target="_top">
+        <?!= style ?>
+      </head>
+      <body>
+        <table><tr><td>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf7eQty92OWCEw_YZ4Irf-PpjYboaKysgVLIBnxESn-TcRfnQ/viewform?embedded=true" width="640" height="3686" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </td><td>
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSq6HBWVkXDbQatjrtodxKlGSDJkrj0Uc70jRN6vhzDmvW3RPjysRGhnjCyGZ77vaKLl0IVqB3UDQO3/embed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="3715" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+          </td></tr></table>
+      </body>
+    </html>
 `);
   template.style = `
     <style>
@@ -156,246 +163,247 @@ var doGet = function(e) {
           border-bottom: none;
       }
   </style>`
+  console.log("SIPOC Code: line 166")
   return renderTemplate(
-              `<html id="wallDoGet">
-          <head>
-            <base target="_self">
-            <meta charset="utf-8">
-            <meta name="Subscribe" content="Pro Media Snip">
-            <meta name=viewport content="width=device-width, initial-scale=1">
-            <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
-            <style>
+    `<html id="wallDoGet">
+      <head>
+        <base target="_self">
+        <meta charset="utf-8">
+        <meta name="Subscribe" content="Pro Media Snip">
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+        <style>
 
-                body {
+            body {
 
-                  flex-grow: 1;
-                  color:blue;
-                  text-decoration:bold;
-                  flex-flow: row wrap;
-                  grid-column: 1;
-                  grid-row: 1;
-                  text-align: center;
-                  align-content: flex-start;
-                  overflow: auto;
-                }
-                .app-container {
-                  background-color: white;
-                  padding: 30px;
-                  border-radius: 10px;
-                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                  width: 90%;
-                  max-width: 800px;
-                  margin-top: 20px;
-                  margin-bottom: 20px;
-                  position: relative;
-                }
-                nav {
-                  width: 100%;
-                  background-color: #4CAF50;
-                  padding: 15px 0;
-                  text-align: center;
-                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                  position: sticky;
-                  top: 0;
-                  z-index: 1000;
-                }
-                nav a {
-                  color: white !important;
-                  font-size: 1.2em;
-                  text-decoration: none;
-                  padding: 10px 20px;
-                  border-radius: 5px;
-                  transition: background-color 0.3s ease;
-                }
-                nav a:hover {
-                  background-color: #45a049;
-                }
-                @media (max-width: 600px) {
-                  .app-container {
-                    width: 95%;
-                    padding: 15px;
-                  }
-                }
-                h1 {
-                  font-size: 2.5em;
-                  color: #333;
-                  margin-bottom: 20px;
-                  text-align: center;
-                }
-                form label {
-                  font-size: 1em;
-                  color: #555;
-                  margin-bottom: 5px;
-                  display: block;
-                }
-                form input[type="text"],
-                form input[type="date"],
-                form input[type="number"] {
-                  width: 100%;
-                  padding: 10px;
-                  margin-bottom: 15px;
-                  border: 1px solid #ddd;
-                  border-radius: 5px;
-                  font-size: 1em;
-                }
-                form button[type="submit"] {
-                  background-color: #007bff;
-                  color: white;
-                  padding: 12px 25px;
-                  border: none;
-                  border-radius: 5px;
-                  cursor: pointer;
-                  font-size: 1.1em;
-                  transition: background-color 0.3s ease;
-                  display: block;
-                  margin-top: 20px;
-                }
-                form button[type="submit"]:hover {
-                  background-color: #0056b3;
-                }
-                @media (max-width: 600px) {
-                  h1 {
-                    font-size: 2em;
-                  }
-                  form label, form input, form button {
-                    font-size: 0.9em;
-                  }
-                }
-                .autocomplete-suggestions {
-                    border: 1px solid #ccc;
-                    max-height: 200px;
-                    overflow-y: auto;
-                    background-color: white;
-                    z-index: 100;
-                    position: absolute;
-                    width: 100%;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                    margin-top: -15px;
-                    left: 0;
-                }
-                .autocomplete-suggestions div {
-                    padding: 8px 12px;
-                    cursor: pointer;
-                    border-bottom: 1px solid #eee;
-                }
-                .autocomplete-suggestions div:hover {
-                    background-color: #f0f0f0;
-                }
-                .autocomplete-suggestions div:last-child {
-                    border-bottom: none;
-                }
-              </style>
-          
-          </head>
-          <body>
-            <div>
-              <?!= subBlob ?>
-            </div>
-            <div id="eObject"><input type="text" id="pageObj" value=""></div>
-            <div class="row"><div class="center app-container col s12 l12 m12 z-depth-5 card-panel push-m2 push-s2 push-l2"></div>
-              <?!= renBlob ?>
-            </div>
-          </body>
-            <script>
-                  function serverSide(func, args) {
-                    return new Promise((resolve, reject) => {
-                      google.script.run
-                        .withSuccessHandler((result) => {
-                          resolve(result); // result will be { type: "...", data: "..." }
-                          // You would then process 'result' here to update specific parts of your current page
-                          // For example, update a div with result.data if result.type is "text" or "html"
-                        })
-                        .withFailureHandler((error) => {
-                          reject(error);
-                          console.error("Server-side call error:", error);
-                          alert("Error during server call: " + error.message);
-                        })
-                        .runBoilerplate(func, args);
-                    });
-                  }
-                  const currentE = JSON.parse(<?= e ?>);
-                  const homePageUrl = <?= homePage ?>;
+              flex-grow: 1;
+              color:blue;
+              text-decoration:bold;
+              flex-flow: row wrap;
+              grid-column: 1;
+              grid-row: 1;
+              text-align: center;
+              align-content: flex-start;
+              overflow: auto;
+            }
+            .app-container {
+              background-color: white;
+              padding: 30px;
+              border-radius: 10px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              width: 90%;
+              max-width: 800px;
+              margin-top: 20px;
+              margin-bottom: 20px;
+              position: relative;
+            }
+            nav {
+              width: 100%;
+              background-color: #4CAF50;
+              padding: 15px 0;
+              text-align: center;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              position: sticky;
+              top: 0;
+              z-index: 1000;
+            }
+            nav a {
+              color: white !important;
+              font-size: 1.2em;
+              text-decoration: none;
+              padding: 10px 20px;
+              border-radius: 5px;
+              transition: background-color 0.3s ease;
+            }
+            nav a:hover {
+              background-color: #45a049;
+            }
+            @media (max-width: 600px) {
+              .app-container {
+                width: 95%;
+                padding: 15px;
+              }
+            }
+            h1 {
+              font-size: 2.5em;
+              color: #333;
+              margin-bottom: 20px;
+              text-align: center;
+            }
+            form label {
+              font-size: 1em;
+              color: #555;
+              margin-bottom: 5px;
+              display: block;
+            }
+            form input[type="text"],
+            form input[type="date"],
+            form input[type="number"] {
+              width: 100%;
+              padding: 10px;
+              margin-bottom: 15px;
+              border: 1px solid #ddd;
+              border-radius: 5px;
+              font-size: 1em;
+            }
+            form button[type="submit"] {
+              background-color: #007bff;
+              color: white;
+              padding: 12px 25px;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 1.1em;
+              transition: background-color 0.3s ease;
+              display: block;
+              margin-top: 20px;
+            }
+            form button[type="submit"]:hover {
+              background-color: #0056b3;
+            }
+            @media (max-width: 600px) {
+              h1 {
+                font-size: 2em;
+              }
+              form label, form input, form button {
+                font-size: 0.9em;
+              }
+            }
+            .autocomplete-suggestions {
+                border: 1px solid #ccc;
+                max-height: 200px;
+                overflow-y: auto;
+                background-color: white;
+                z-index: 100;
+                position: absolute;
+                width: 100%;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin-top: -15px;
+                left: 0;
+            }
+            .autocomplete-suggestions div {
+                padding: 8px 12px;
+                cursor: pointer;
+                border-bottom: 1px solid #eee;
+            }
+            .autocomplete-suggestions div:hover {
+                background-color: #f0f0f0;
+            }
+            .autocomplete-suggestions div:last-child {
+                border-bottom: none;
+            }
+        </style>
+      
+        </head>
+        <body>
+          <div>
+            <?!= subBlob ?>
+          </div>
+          <div id="eObject"><input type="text" id="pageObj" value=""></div>
+          <div class="row"><div class="center app-container col s12 l12 m12 z-depth-5 card-panel push-m2 push-s2 push-l2"></div>
+            <?!= renBlob ?>
+          </div>
+        </body>
+          <script>
+            function serverSide(func, args) {
+              return new Promise((resolve, reject) => {
+                google.script.run
+                  .withSuccessHandler((result) => {
+                    resolve(result); // result will be { type: "...", data: "..." }
+                    // You would then process 'result' here to update specific parts of your current page
+                    // For example, update a div with result.data if result.type is "text" or "html"
+                  })
+                  .withFailureHandler((error) => {
+                    reject(error);
+                    console.error("Server-side call error:", error);
+                    alert("Error during server call: " + error.message);
+                  })
+                  .runBoilerplate(func, args);
+              });
+            }
+            const currentE = JSON.parse(<?= e ?>);
+            const homePageUrl = <?= homePage ?>;
 
-                  console.log("Client-side: Initial doGet event object:", currentE);
-                  console.log("Client-side: Home Page URL:", homePageUrl);
+            console.log("Client-side: Initial doGet event object:", currentE);
+            console.log("Client-side: Home Page URL:", homePageUrl);
 
-                  console.log("line 261");
-                  document.addEventListener("DOMContentLoaded", eRun);
-                  function eRun() {
-                    console.log("line 258");
-                    var objUrl = document.getElementById("pageObj");
-                    console.log("line 259");
-                    var objDiv = document.getElementById("eObject");
-                    console.log("line 260");
-                    let initialArgs = currentE.parameter["args"];
-                    if (initialArgs !== undefined && initialArgs !== null) {
-                      if (typeof initialArgs === 'object') {
-                        objUrl.value = JSON.stringify(initialArgs, null, 2);
-                      } else {
-                        objUrl.value = initialArgs; // If it's a string directly
-                      }
-                    } else {
-                      objUrl.value = '[""]'; // Default if args is missing
+            console.log("line 261");
+            document.addEventListener("DOMContentLoaded", eRun);
+            function eRun() {
+              console.log("line 258");
+              var objUrl = document.getElementById("pageObj");
+              console.log("line 259");
+              var objDiv = document.getElementById("eObject");
+              console.log("line 260");
+              let initialArgs = currentE.parameter["args"];
+              if (initialArgs !== undefined && initialArgs !== null) {
+                if (typeof initialArgs === 'object') {
+                  objUrl.value = JSON.stringify(initialArgs, null, 2);
+                } else {
+                  objUrl.value = initialArgs; // If it's a string directly
+                }
+              } else {
+                objUrl.value = '[""]'; // Default if args is missing
+              }
+              objUrl.addEventListener("change", function () {
+                try {
+                  // Parse the user's input as the new 'args' value
+                  // Allow direct strings or JSON arrays/objects
+                  let parsedE;
+                  try {
+                    parsedE = JSON.parse(this.value);
+                  } catch (jsonError) {
+                    // If it's not valid JSON, treat it as a plain string
+                    parsedE = this.value;
+                  }
+
+                  // --- MODIFICATION STARTS HERE ---
+                  // Create a *new*, reduced e object containing only func and args
+                  const updatedClientE = {
+                    parameter: {
+                      func: currentE.parameter.func, // Keep the original func
+                      args: parsedE                 // Use the new parsed args
                     }
-                    objUrl.addEventListener("change", function () {
-                      try {
-                        // Parse the user's input as the new 'args' value
-                        // Allow direct strings or JSON arrays/objects
-                        let parsedE;
-                        try {
-                          parsedE = JSON.parse(this.value);
-                        } catch (jsonError) {
-                          // If it's not valid JSON, treat it as a plain string
-                          parsedE = this.value;
-                        }
+                  };
+                  // --- MODIFICATION ENDS HERE ---
 
-                        // --- MODIFICATION STARTS HERE ---
-                        // Create a *new*, reduced e object containing only func and args
-                        const updatedClientE = {
-                          parameter: {
-                            func: currentE.parameter.func, // Keep the original func
-                            args: parsedE                 // Use the new parsed args
-                          }
-                        };
-                        // --- MODIFICATION ENDS HERE ---
-
-                        alert("e.parameter['args'] updated. Sending back to server for re-render.");
-                        console.log("Client-side: Updated e object to send:", updatedClientE);
-                        async function handlePageUpdate() {
-                          try {
-                            const newHtmlContent = await serverSide(updatedClientE.parameter["func"], updatedClientE.parameter["args"]);
-                            if (newHtmlContent && newHtmlContent.type === "html" && newHtmlContent.data) {
-                              document.open();
-                              document.write(newHtmlContent.data); // Use the data property
-                              document.close();
-                              console.log("Client-side: Page re-rendered with new content from server.");
-                            } 
-                            else if (newHtmlContent && newHtmlContent.type === "object" && newHtmlContent.data) {
-                              document.open();
-                              document.write(newHtmlContent.data.app); // Use the data property
-                              document.close();
-                              console.log("Client-side: Page re-rendered with new content from server.");
-                            } 
-                            else {
-                              document.open();
-                              document.write(newHtmlContent.data.dataStr);
-                              document.close();
-                              console.log("Client-side: Page re-rendered with new content from server.");
-                            }
-                          } catch (error) {
-                            console.error("Client-side Error during full re-render:", error);
-                            alert("Error re-rendering: " + error.message);
-                          }
-                        }
-                        handlePageUpdate();
-                      } catch (error) {
-                        alert("Error processing input. Please ensure it's valid JSON or a plain string.");
-                        console.error("Input processing error:", error);
+                  alert("e.parameter['args'] updated. Sending back to server for re-render.");
+                  console.log("Client-side: Updated e object to send:", updatedClientE);
+                  async function handlePageUpdate() {
+                    try {
+                      const newHtmlContent = await serverSide(updatedClientE.parameter["func"], updatedClientE.parameter["args"]);
+                      if (newHtmlContent && newHtmlContent.type === "html" && newHtmlContent.data) {
+                        document.open();
+                        document.write(newHtmlContent.data); // Use the data property
+                        document.close();
+                        console.log("Client-side: Page re-rendered with new content from server.");
+                      } 
+                      else if (newHtmlContent && newHtmlContent.type === "object" && newHtmlContent.data) {
+                        document.open();
+                        document.write(newHtmlContent.data.app); // Use the data property
+                        document.close();
+                        console.log("Client-side: Page re-rendered with new content from server.");
+                      } 
+                      else {
+                        document.open();
+                        document.write(newHtmlContent.data.dataStr);
+                        document.close();
+                        console.log("Client-side: Page re-rendered with new content from server.");
                       }
-                    });
+                    } catch (error) {
+                      console.error("Client-side Error during full re-render:", error);
+                      alert("Error re-rendering: " + error.message);
+                    }
                   }
-                </script>
-        </html>`, 
+                  handlePageUpdate();
+                } catch (error) {
+                  alert("Error processing input. Please ensure it's valid JSON or a plain string.");
+                  console.error("Input processing error:", error);
+                }
+              });
+            }
+          </script>
+      </html>`, 
         {
           renBlob: this[libName].contentApp(
           `
@@ -610,6 +618,7 @@ var tempCodeY = function(e)
   return Route["default"](e)}
 
 function runBoilerplate(func, args) {
+  console.log("SIPOC Code: line 621")
   var libName = "app";
   // Check if maxTime exists as a global variable
   const timeRemaining =
