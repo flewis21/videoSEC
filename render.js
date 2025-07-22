@@ -30,25 +30,30 @@ const functionRegistry = {
     return this.paramsList;
   },
   maxTime: 6 * 60 * 1000,
-  _startTime: null,       // Private variable to store the timestamp when the process begins
+  _startTime: null, // Private variable to store the timestamp when the process begins
 
   /**
    * Starts the global timer for your process.
    * This should be called only ONCE at the beginning of your main execution.
    */
-  startProcessTimer: function() {
+  startProcessTimer: function () {
     if (this._startTime === null) {
       this._startTime = new Date().getTime();
-      console.log("Process timer started at:", new Date(this._startTime).toISOString());
+      console.log(
+        "Process timer started at:",
+        new Date(this._startTime).toISOString(),
+      );
     } else {
-      console.warn("Process timer has already started. Call resetProcessTimer() if you want to restart.");
+      console.warn(
+        "Process timer has already started. Call resetProcessTimer() if you want to restart.",
+      );
     }
   },
 
   /**
    * Resets the global timer. Call this if you want to start a completely new execution cycle.
    */
-  resetProcessTimer: function() {
+  resetProcessTimer: function () {
     this._startTime = null;
     console.log("Process timer reset.");
   },
@@ -107,22 +112,20 @@ const functionRegistry = {
 functionRegistry.initialize();
 functionRegistry.startProcessTimer();
 
-var renderFile = function(file, argsObject) {
+var renderFile = function (file, argsObject) {
   if (file) {
+    const tmp = HtmlService.createTemplateFromFile(file);
+    if (argsObject) {
+      const keys = Object.keys(argsObject);
 
-  
-      const tmp = HtmlService.createTemplateFromFile(file);
-      if (argsObject) {
-        const keys = Object.keys(argsObject);
+      keys.forEach(function (key) {
+        tmp[key] = argsObject[key];
+      });
 
-        keys.forEach(function(key) {
-          tmp[key] = argsObject[key]
-        });
-
-        // tmp["list"] = htmlListArray;
-      } // END IF
-      // Route[file] = argsObject
-      var html = contentApp(`  <html id="renderFile">
+      // tmp["list"] = htmlListArray;
+    } // END IF
+    // Route[file] = argsObject
+    var html = contentApp(`  <html id="renderFile">
     <head>
       <base target="_top">
       <meta charset="utf-8">
@@ -133,31 +136,34 @@ var renderFile = function(file, argsObject) {
     <body>
     </body>
     </html>
-`)
-      return tmp.evaluate()
+`);
+    return tmp
+      .evaluate()
       .append(html)
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
       .setTitle("Don'time Life Services")
-      .getContent()
+      .getContent();
+  }
+};
 
-
-}
-}
-
-var renderTemplate = function(blob, argsObject) {
-  console.log("SIPOC render: line 148")
+var renderTemplate = function (blob, argsObject) {
+  console.log("SIPOC render: line 148");
   const tmp = HtmlService.createTemplate(blob);
-  if (argsObject) 
-    {const keys = Object.keys(argsObject);
-    keys.forEach(function(key) {tmp[key] = argsObject[key]});}
-  console.log("SIPOC render: line 153")
-  var funcCheck = appList()
-  var schedule = app.dateTime(new Date())
+  if (argsObject) {
+    const keys = Object.keys(argsObject);
+    keys.forEach(function (key) {
+      tmp[key] = argsObject[key];
+    });
+  }
+  console.log("SIPOC render: line 153");
+  var funcCheck = appList();
+  var schedule = app.dateTime(new Date());
   // var research = geneFrame(seoSheet(coUtility()[0].rndTitle).url)
   var resScript = app.contentApp(`              
-`)
-  console.log("SIPOC render: line 159")
-  var html = app.contentApp(`
+`);
+  console.log("SIPOC render: line 159");
+  var html = app.contentApp(
+    `
   <html id="renderTemplate">
     <head>
       <base target="_top">
@@ -558,64 +564,87 @@ var renderTemplate = function(blob, argsObject) {
     <input type="hidden" value="<?= getUrl(ScriptApp) ?>" id="url" />
     </body>
   </html>`,
-    {funcClicked: 
-function()
-  {//console.log(document.getElementById("test").innerHTML)
-  // Init a timeout variable to be used below
-  let timeout = null;
-  (() => {// Clear the timeout if it has already been set.
-  // This will prevent the previous task from executing
-  // if it has been less than <MILLISECONDS>
-  // clearTimeout(timeout);
-  // Make a new timeout set to go off in 1000ms (1 second)
-  // timeout = setTimeout
-  // (function  () 
-    // {console.log('Input Value:', textInput.value);}, 5000)();
-  if (typeof url === "undefined")
-    {var urlData = document.getElementById("url").value;
-    var url = urlData.toString()}
-  var func = document.getElementById("func").value;
-  var args = document.getElementById("args").value;
-  if (typeof args !== "undefined"){
-  var linkFollow = document.createElement("a");
-  linkFollow.href = url + "?func=" + encodeURIComponent(func) + "&args=" + encodeURIComponent(args);
-  linkFollow.id = "linkFOLLOW";
-  linkFollow.target = "_top";
-  document.body.appendChild(linkFollow);
-  document.getElementById("linkFOLLOW").click();}})()},
-  argsClicked: 
-function()
-  {//console.log(document.getElementById("test").innerHTML)
-  // Init a timeout variable to be used below
-  let timeout = null;
-  (() => {// Clear the timeout if it has already been set.
-  // This will prevent the previous task from executing
-  // if it has been less than <MILLISECONDS>
-  // clearTimeout(timeout);
-  // Make a new timeout set to go off in 1000ms (1 second)
-  // timeout = setTimeout
-  // (function  () 
-    // {console.log('Input Value:', textInput.value);}, 5000)();
-  if (typeof url === "undefined")
-    {var urlData = document.getElementById("url").value;
-    var url = urlData.toString()}
-  var func = document.getElementById("func").value;
-  var args = document.getElementById("args").value;
-  if (typeof func !== "undefined"){
-  var linkFollow = document.createElement("a");
-  linkFollow.href = url + "?func=" + encodeURIComponent(func) + "&args=" + encodeURIComponent(args);
-  linkFollow.id = "linkFOLLOW";
-  linkFollow.target = "_top";
-  document.body.appendChild(linkFollow);
-  document.getElementById("linkFOLLOW").click();}})()},})
-  return tmp.evaluate()
+    {
+      funcClicked: function () {
+        //console.log(document.getElementById("test").innerHTML)
+        // Init a timeout variable to be used below
+        let timeout = null;
+        (() => {
+          // Clear the timeout if it has already been set.
+          // This will prevent the previous task from executing
+          // if it has been less than <MILLISECONDS>
+          // clearTimeout(timeout);
+          // Make a new timeout set to go off in 1000ms (1 second)
+          // timeout = setTimeout
+          // (function  ()
+          // {console.log('Input Value:', textInput.value);}, 5000)();
+          if (typeof url === "undefined") {
+            var urlData = document.getElementById("url").value;
+            var url = urlData.toString();
+          }
+          var func = document.getElementById("func").value;
+          var args = document.getElementById("args").value;
+          if (typeof args !== "undefined") {
+            var linkFollow = document.createElement("a");
+            linkFollow.href =
+              url +
+              "?func=" +
+              encodeURIComponent(func) +
+              "&args=" +
+              encodeURIComponent(args);
+            linkFollow.id = "linkFOLLOW";
+            linkFollow.target = "_top";
+            document.body.appendChild(linkFollow);
+            document.getElementById("linkFOLLOW").click();
+          }
+        })();
+      },
+      argsClicked: function () {
+        //console.log(document.getElementById("test").innerHTML)
+        // Init a timeout variable to be used below
+        let timeout = null;
+        (() => {
+          // Clear the timeout if it has already been set.
+          // This will prevent the previous task from executing
+          // if it has been less than <MILLISECONDS>
+          // clearTimeout(timeout);
+          // Make a new timeout set to go off in 1000ms (1 second)
+          // timeout = setTimeout
+          // (function  ()
+          // {console.log('Input Value:', textInput.value);}, 5000)();
+          if (typeof url === "undefined") {
+            var urlData = document.getElementById("url").value;
+            var url = urlData.toString();
+          }
+          var func = document.getElementById("func").value;
+          var args = document.getElementById("args").value;
+          if (typeof func !== "undefined") {
+            var linkFollow = document.createElement("a");
+            linkFollow.href =
+              url +
+              "?func=" +
+              encodeURIComponent(func) +
+              "&args=" +
+              encodeURIComponent(args);
+            linkFollow.id = "linkFOLLOW";
+            linkFollow.target = "_top";
+            document.body.appendChild(linkFollow);
+            document.getElementById("linkFOLLOW").click();
+          }
+        })();
+      },
+    },
+  );
+  return tmp
+    .evaluate()
     .append(resScript)
     .append(html)
     .append(schedule)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-    .setTitle("Don'time Life Services")}
+    .setTitle("Don'time Life Services");
+};
 
-var appList = function(e) {
+var appList = function (e) {
   return HtmlService.createTemplate(
     `
   <html id="appList">
@@ -819,37 +848,40 @@ var appList = function(e) {
       </script>
     </body>
   </html>
-  `).evaluate().getContent()}
-      // <div class="row">
-      //   <nav class="col s10 push-s1 push-m1 push-l1 menu z-depth-5 card-panel amber scale-out scale-in" style="font-size: 30px">
-      //     <div class="container">
-      //       <div class="col s12 receipt nav-wrapper deep-purple darken-1">
-      //           <a href="#" onclick="aboutMeSearch()" target="_self" id="aboutme">About-Me</a><br />
-      //           <a href="#" onclick="shopResearch()" id="shopstore">Store</a><br />
-      //           <a href="#" onclick="secResearch()" id="secenv">Local Enviroment</a><br />
-      //           <a href="#" onclick="calcResearch()" id="calculate">Calculate</a><br />
-      //           <a href="#" onclick="investResearch()" id="invest">Investors</a><br />
-      //           <a href="#" onclick="newResearch()" id="rndnew">New</a><br />
-      //       </div></div>
-      //     </nav>
-      // </div>
-    // <div class="row">
-    //   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
-    //     <div class="container">
-    //       <div class="col s12 receipt deep-purple darken-1">
-    //         <div id="dlts"></div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-    // <div class="row">
-    //   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
-    //     <div class="container">
-    //       <div class="col s12 receipt deep-purple darken-1">
-    //         <label for="appList" class="active" style="font-size: 16px; top: -5px; left: -4px;">Choose your function...</label>
-    //           <select id="appList" class="browser-default deep-purple darken-1"></select>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-
+  `,
+  )
+    .evaluate()
+    .getContent();
+};
+// <div class="row">
+//   <nav class="col s10 push-s1 push-m1 push-l1 menu z-depth-5 card-panel amber scale-out scale-in" style="font-size: 30px">
+//     <div class="container">
+//       <div class="col s12 receipt nav-wrapper deep-purple darken-1">
+//           <a href="#" onclick="aboutMeSearch()" target="_self" id="aboutme">About-Me</a><br />
+//           <a href="#" onclick="shopResearch()" id="shopstore">Store</a><br />
+//           <a href="#" onclick="secResearch()" id="secenv">Local Enviroment</a><br />
+//           <a href="#" onclick="calcResearch()" id="calculate">Calculate</a><br />
+//           <a href="#" onclick="investResearch()" id="invest">Investors</a><br />
+//           <a href="#" onclick="newResearch()" id="rndnew">New</a><br />
+//       </div></div>
+//     </nav>
+// </div>
+// <div class="row">
+//   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
+//     <div class="container">
+//       <div class="col s12 receipt deep-purple darken-1">
+//         <div id="dlts"></div>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+// <div class="row">
+//   <div class="col s10 card-panel amber push-s1 push-m1 push-l1">
+//     <div class="container">
+//       <div class="col s12 receipt deep-purple darken-1">
+//         <label for="appList" class="active" style="font-size: 16px; top: -5px; left: -4px;">Choose your function...</label>
+//           <select id="appList" class="browser-default deep-purple darken-1"></select>
+//       </div>
+//     </div>
+//   </div>
+// </div>

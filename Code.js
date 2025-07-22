@@ -1,14 +1,20 @@
-var doGet = function(e) {
+var doGet = function (e) {
   var libName = "app";
   var funcUno = e.parameter["func"];
   console.log("e.parameter['args'] before funcDos:", e.parameter["args"]);
   var funcDos = e.parameter["args"];
   console.log("e.parameter['args'] after funcDos:", e.parameter["args"]);
   console.log("funcDos:", funcDos);
-  var foobarr =  funcUno || "renderFile";
+  var foobarr = funcUno || "renderFile";
   var libFunc = foobarr;
-  var htmlList = [`untitled proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`]
-  var rndPage = htmlList.toString().split(" ")[Math.floor(Math.random() * (Math.floor(htmlList.toString().split(" ").length)))];
+  var htmlList = [
+    `untitled proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`,
+  ];
+  var rndPage = htmlList.toString().split(" ")[
+    Math.floor(
+      Math.random() * Math.floor(htmlList.toString().split(" ").length),
+    )
+  ];
   args = e.parameter["args"] || ["checkOnDay"];
   var template = HtmlService.createTemplate(`
   <!DOCTYPE html>
@@ -162,8 +168,8 @@ var doGet = function(e) {
       .autocomplete-suggestions div:last-child {
           border-bottom: none;
       }
-  </style>`
-  console.log("SIPOC Code: line 166")
+  </style>`;
+  console.log("SIPOC Code: line 166");
   return renderTemplate(
     `<html id="wallDoGet">
       <head>
@@ -403,10 +409,10 @@ var doGet = function(e) {
               });
             }
           </script>
-      </html>`, 
-        {
-          renBlob: this[libName].contentApp(
-          `
+      </html>`,
+    {
+      renBlob: this[libName].contentApp(
+        `
       <html id="wildSageBrush">
         <head>
           <base target="_self">
@@ -480,12 +486,12 @@ var doGet = function(e) {
             else {document.getElementById("indexBeta").src = "https://www.clubhouse.com/@fabianlewis?utm_medium=ch_profile&utm_campaign=lhTUtHb2bYqPN3w8EEB7FQ-247242"}
           </script>
         </body>
-      </html> `, 
-          {
-            appL: 
-            this[libName][foobarr || 
-            HtmlService.createHtmlOutput(
-              `
+      </html> `,
+        {
+          appL: this[libName][
+            foobarr ||
+              HtmlService.createHtmlOutput(
+                `
       <html id="foobarr">
         <head>
           <base target="_self">
@@ -500,10 +506,12 @@ var doGet = function(e) {
           </script>
         </body>
       </html>
-              `).getContent()]
-            .apply(this, [args || 
-            HtmlService.createHtmlOutput(
-              `
+              `,
+              ).getContent()
+          ].apply(this, [
+            args ||
+              HtmlService.createHtmlOutput(
+                `
               
       <html id="args">
         <head>
@@ -519,12 +527,13 @@ var doGet = function(e) {
           </script>
         </body>
       </html>
-              `).getContent()]),
-            
-          }), 
-          subBlob: this[libName]
-          .contentApp(
-                  `
+              `,
+              ).getContent(),
+          ]),
+        },
+      ),
+      subBlob: this[libName].contentApp(
+        `
               <html id="Subscribe">
                 <head>
                   <base target="_self">
@@ -575,21 +584,29 @@ var doGet = function(e) {
                   </div>
                 </body>
               </html>
-                  `, 
-                  {
-                    subL: template.evaluate().getContent()
-                  }),
-              e: JSON.stringify(e),
-              homePage: this[libName].getScriptUrl(),
-            });
-}
+                  `,
+        {
+          subL: template.evaluate().getContent(),
+        },
+      ),
+      e: JSON.stringify(e),
+      homePage: this[libName].getScriptUrl(),
+    },
+  );
+};
 
-  function tempCodeX(e)
-    {console.log(JSON.stringify(e));
-    const randomKey = Math.floor(Math.random() * (Math.floor(12000)))// Math.floor(Math.random())
-    const uniqueKey = [Utilities.jsonParse(app.urlDataSource("https://www.sec.gov/files/company_tickers.json"))].entries().next().value;
-    const randomTitle = uniqueKey[1][randomKey]["title"]
-    const html = app.contentApp(
+function tempCodeX(e) {
+  console.log(JSON.stringify(e));
+  const randomKey = Math.floor(Math.random() * Math.floor(12000)); // Math.floor(Math.random())
+  const uniqueKey = [
+    Utilities.jsonParse(
+      app.urlDataSource("https://www.sec.gov/files/company_tickers.json"),
+    ),
+  ]
+    .entries()
+    .next().value;
+  const randomTitle = uniqueKey[1][randomKey]["title"];
+  const html = app.contentApp(
     `<!DOCTYPE html>
       <html id="test">
         <head>
@@ -601,24 +618,30 @@ var doGet = function(e) {
             <?!= videoPlayer(myRandoms) ?>
           </div>
         </body>
-      </html>`, {myRandoms: randomTitle
-    }); //Global object closed
-return app.renderTemplate(html)} //webApp closed
+      </html>`,
+    { myRandoms: randomTitle },
+  ); //Global object closed
+  return app.renderTemplate(html);
+} //webApp closed
 
-function dontime() 
-  {webApp = HtmlService.createTemplateFromFile("index");
-    return webApp.evaluate().setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);}
+function dontime() {
+  webApp = HtmlService.createTemplateFromFile("index");
+  return webApp
+    .evaluate()
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
 
-var tempCodeY = function(e)
-  {const Route = 
-    {};
-  Route.path = function(route, callback) 
-    {Route[route] = callback;} 
+var tempCodeY = function (e) {
+  const Route = {};
+  Route.path = function (route, callback) {
+    Route[route] = callback;
+  };
   Route.path("default", app.videoSEC);
-  return Route["default"](e)}
+  return Route["default"](e);
+};
 
 function runBoilerplate(func, args) {
-  console.log("SIPOC Code: line 621")
+  console.log("SIPOC Code: line 621");
   var libName = "app";
   // Check if maxTime exists as a global variable
   const timeRemaining =
@@ -710,10 +733,10 @@ function runBoilerplate(func, args) {
   }
 }
 
-var runAll =  function(func, args)
-  {var arr = func.split(".");
+var runAll = function (func, args) {
+  var arr = func.split(".");
   var libName = arr[0];
   var libFunc = arr[1];
   args = args || [];
-  return this[libName][libFunc].apply(this, args);}
-
+  return this[libName][libFunc].apply(this, args);
+};
