@@ -1,5 +1,17 @@
 var doGet = function (e) {
   var libName = "app";
+  // Early return for getData action
+  if (e && e.parameter && e.parameter.action === "getData") {
+    return this[libName].handleRequest(e);
+  }
+
+  // Determine funcTres
+  var funcTres = e && e.parameter["file"] ? e.parameter["file"] : "uiAccess";
+
+  // Logging
+  if (e && e.parameter["func"]) {
+    console.log(JSON.stringify(e));
+  } 
   var funcUno = e.parameter["func"];
   console.log("e.parameter['args'] before funcDos:", e.parameter["args"]);
   var funcDos = e.parameter["args"];
@@ -7,15 +19,24 @@ var doGet = function (e) {
   console.log("funcDos:", funcDos);
   var foobarr = funcUno || "renderFile";
   var libFunc = foobarr;
-  var htmlList = [
-    `untitled proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS`,
-  ];
-  var rndPage = htmlList.toString().split(" ")[
-    Math.floor(
-      Math.random() * Math.floor(htmlList.toString().split(" ").length),
-    )
-  ];
-  args = e.parameter["args"] || ["checkOnDay"];
+  var htmlArray = [
+    `untitled proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS Section3.Challenge1 cors edgarFriendly editor ssForms styling theRoll theWorks uiAccess cGWI`,
+  ]
+    .toString()
+    .split(" ");
+  var rndHtmlIndex = Math.floor(Math.random() * Math.floor(htmlArray.length));
+  console.log("rndHtmlIndex = " + htmlArray[rndHtmlIndex]);
+  var rndPage = htmlArray.toString().split(" ")[rndHtmlIndex];
+  var index = htmlArray.findIndex(function (element) {
+    return element === e.parameter["args"] || "checkOnDay";
+  });
+  var tres = htmlArray.findIndex(function (element) {
+    return element === funcTres;
+  });
+  console.log("index:", index + "\ntres", tres);
+  var args;
+  index !== -1 ? (args = htmlArray[index]) : (args = htmlArray[rndHtmlIndex]);
+  console.log("e {parameter: {func: " + e.parameter["func"] + "}}");
   var template = HtmlService.createTemplate(`
   <!DOCTYPE html>
     <html>
@@ -494,8 +515,7 @@ var doGet = function (e) {
       </html> `,
         {
           appL: this[libName][
-            "mis" ||
-              foobarr ||
+            "mis" || foobarr ||
               HtmlService.createHtmlOutput(
                 `
       <html id="foobarr">
@@ -515,9 +535,7 @@ var doGet = function (e) {
               `,
               ).getContent()
           ].apply(this, [
-            "oldSEC",
-            rndPage ||
-              args ||
+            "oldSEC", rndPage || args ||
               HtmlService.createHtmlOutput(
                 `
               
