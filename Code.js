@@ -11,22 +11,22 @@ var doGet = function (e) {
   // Logging
   if (e && e.parameter["func"]) {
     console.log(
-      "SIPOC Code: " + JSON.stringify(e) + "\n " + arguments.callee.caller.name,
+      "SIPOC Code: " + JSON.stringify(e) + "\n ",
     );
   }
   var funcUno = e.parameter["func"];
   console.log(
     "SIPOC Code: e.parameter['args'] before funcDos:",
-    e.parameter["args"] + "\n " + arguments.callee.caller.name,
+    e.parameter["args"] + "\n ",
   );
   var funcDos = e.parameter["args"];
   console.log(
     "SIPOC Code: e.parameter['args'] after funcDos:",
-    e.parameter["args"] + "\n " + arguments.callee.caller.name,
+    e.parameter["args"] + "\n ",
   );
   console.log(
     "SIPOC Code: funcDos:",
-    funcDos + "\n " + arguments.callee.caller.name,
+    funcDos + "\n ",
   );
   var foobarr = funcUno || "mis";
   var libFunc = foobarr;
@@ -39,8 +39,7 @@ var doGet = function (e) {
   console.log(
     "SIPOC Code: rndHtmlIndex = " +
       htmlArray[rndHtmlIndex] +
-      "\n " +
-      arguments.callee.caller.name,
+      "\n ",
   );
   var rndPage = htmlArray.toString().split(" ")[rndHtmlIndex];
   var index = htmlArray.findIndex(function (element) {
@@ -52,7 +51,7 @@ var doGet = function (e) {
   console.log(
     "SIPOC Code: index:",
     index + "\ntres",
-    tres + "\n " + arguments.callee.caller.name,
+    tres + "\n ",
   );
   var args;
   index !== -1 ? (args = htmlArray[index]) : (args = htmlArray[rndHtmlIndex]);
@@ -61,16 +60,14 @@ var doGet = function (e) {
       e.parameter["func"] +
       ",args: " +
       e.parameter["args"] +
-      "}}\n " +
-      arguments.callee.caller.name,
+      "}}\n ",
   );
   console.log(
     "SIPOC Code: e {parameter: {foobarr: " +
       foobarr +
       ",args: " +
       args +
-      "}}\n " +
-      arguments.callee.caller.name,
+      "}}\n ",
   );
   var template = HtmlService.createTemplate(`
   <!DOCTYPE html>
@@ -225,7 +222,7 @@ var doGet = function (e) {
           border-bottom: none;
       }
   </style>`;
-  console.log("SIPOC Code: line 166\n " + arguments.callee.caller.name);
+  console.log("SIPOC Code: line 166\n ");
   return renderTemplate(
     `<html id="wallDoGet">
       <head>
@@ -697,7 +694,7 @@ var tempCodeY = function (e) {
 };
 
 function runBoilerplate(func, args) {
-  console.log("SIPOC Code: line 621");
+  console.log("SIPOC Code: line 621\nrunBoilerplate(func:" + func + ", args:" + args + ")\n " + arguments.callee.caller.name);
   var libName = "app";
   // Check if maxTime exists as a global variable
   const timeRemaining =
