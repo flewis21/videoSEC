@@ -147,7 +147,14 @@ var renderFile = function (file, argsObject) {
 };
 
 var renderTemplate = function (blob, argsObject) {
-  console.log("SIPOC render: line 150\nrenderTemplate(blob: " + blob + ", argsObject: " + argsObject + ")\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC render: line 150\nrenderTemplate(blob: " +
+      blob +
+      ", argsObject: " +
+      argsObject +
+      ")\n " +
+      arguments.callee.caller.name,
+  );
   const tmp = HtmlService.createTemplate(blob);
   if (argsObject) {
     const keys = Object.keys(argsObject);
