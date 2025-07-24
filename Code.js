@@ -10,13 +10,24 @@ var doGet = function (e) {
 
   // Logging
   if (e && e.parameter["func"]) {
-    console.log("SIPOC Code: " + JSON.stringify(e) + "\n " + arguments.callee.caller.name);
-  } 
+    console.log(
+      "SIPOC Code: " + JSON.stringify(e) + "\n " + arguments.callee.caller.name,
+    );
+  }
   var funcUno = e.parameter["func"];
-  console.log("SIPOC Code: e.parameter['args'] before funcDos:", e.parameter["args"] + "\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC Code: e.parameter['args'] before funcDos:",
+    e.parameter["args"] + "\n " + arguments.callee.caller.name,
+  );
   var funcDos = e.parameter["args"];
-  console.log("SIPOC Code: e.parameter['args'] after funcDos:", e.parameter["args"] + "\n " + arguments.callee.caller.name);
-  console.log("SIPOC Code: funcDos:", funcDos + "\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC Code: e.parameter['args'] after funcDos:",
+    e.parameter["args"] + "\n " + arguments.callee.caller.name,
+  );
+  console.log(
+    "SIPOC Code: funcDos:",
+    funcDos + "\n " + arguments.callee.caller.name,
+  );
   var foobarr = funcUno || "mis";
   var libFunc = foobarr;
   var htmlArray = [
@@ -25,7 +36,12 @@ var doGet = function (e) {
     .toString()
     .split(" ");
   var rndHtmlIndex = Math.floor(Math.random() * Math.floor(htmlArray.length));
-  console.log("SIPOC Code: rndHtmlIndex = " + htmlArray[rndHtmlIndex] + "\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC Code: rndHtmlIndex = " +
+      htmlArray[rndHtmlIndex] +
+      "\n " +
+      arguments.callee.caller.name,
+  );
   var rndPage = htmlArray.toString().split(" ")[rndHtmlIndex];
   var index = htmlArray.findIndex(function (element) {
     return element === e.parameter["args"] || element === "checkOnDay";
@@ -33,11 +49,29 @@ var doGet = function (e) {
   var tres = htmlArray.findIndex(function (element) {
     return element === funcTres;
   });
-  console.log("SIPOC Code: index:", index + "\ntres", tres + "\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC Code: index:",
+    index + "\ntres",
+    tres + "\n " + arguments.callee.caller.name,
+  );
   var args;
   index !== -1 ? (args = htmlArray[index]) : (args = htmlArray[rndHtmlIndex]);
-  console.log("SIPOC Code: e {parameter: {func: " + e.parameter["func"] + ",args: " + e.parameter["args"] + "}}\n " + arguments.callee.caller.name);
-  console.log("SIPOC Code: e {parameter: {foobarr: " + foobarr + ",args: " + args + "}}\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC Code: e {parameter: {func: " +
+      e.parameter["func"] +
+      ",args: " +
+      e.parameter["args"] +
+      "}}\n " +
+      arguments.callee.caller.name,
+  );
+  console.log(
+    "SIPOC Code: e {parameter: {foobarr: " +
+      foobarr +
+      ",args: " +
+      args +
+      "}}\n " +
+      arguments.callee.caller.name,
+  );
   var template = HtmlService.createTemplate(`
   <!DOCTYPE html>
     <html>
@@ -518,9 +552,9 @@ var doGet = function (e) {
         </html> `,
         {
           appL: this[libName][
-             foobarr ||
+            foobarr ||
               HtmlService.createHtmlOutput(
-                  `<html id="foobarr">
+                `<html id="foobarr">
                     <head>
                       <base target="_self">
                       <meta charset="utf-8">
@@ -536,9 +570,9 @@ var doGet = function (e) {
                   </html>`,
               ).getContent()
           ].apply(this, [
-             e.parameter["args"] || ["oldSEC", args] ||
+            e.parameter["args"] || ["oldSEC", args] ||
               HtmlService.createHtmlOutput(
-                  `<html id="args">
+                `<html id="args">
                     <head>
                       <base target="_self">
                       <meta charset="utf-8">
