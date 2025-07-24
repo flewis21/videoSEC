@@ -10,9 +10,7 @@ var doGet = function (e) {
 
   // Logging
   if (e && e.parameter["func"]) {
-    console.log(
-      "SIPOC Code: " + JSON.stringify(e) + "\n ",
-    );
+    console.log("SIPOC Code: " + JSON.stringify(e) + "\n ");
   }
   var funcUno = e.parameter["func"];
   console.log(
@@ -24,10 +22,7 @@ var doGet = function (e) {
     "SIPOC Code: e.parameter['args'] after funcDos:",
     e.parameter["args"] + "\n ",
   );
-  console.log(
-    "SIPOC Code: funcDos:",
-    funcDos + "\n ",
-  );
+  console.log("SIPOC Code: funcDos:", funcDos + "\n ");
   var foobarr = funcUno || "mis";
   var libFunc = foobarr;
   var htmlArray = [
@@ -36,11 +31,7 @@ var doGet = function (e) {
     .toString()
     .split(" ");
   var rndHtmlIndex = Math.floor(Math.random() * Math.floor(htmlArray.length));
-  console.log(
-    "SIPOC Code: rndHtmlIndex = " +
-      htmlArray[rndHtmlIndex] +
-      "\n ",
-  );
+  console.log("SIPOC Code: rndHtmlIndex = " + htmlArray[rndHtmlIndex] + "\n ");
   var rndPage = htmlArray.toString().split(" ")[rndHtmlIndex];
   var index = htmlArray.findIndex(function (element) {
     return element === e.parameter["args"] || element === "checkOnDay";
@@ -48,11 +39,7 @@ var doGet = function (e) {
   var tres = htmlArray.findIndex(function (element) {
     return element === funcTres;
   });
-  console.log(
-    "SIPOC Code: index:",
-    index + "\ntres",
-    tres + "\n ",
-  );
+  console.log("SIPOC Code: index:", index + "\ntres", tres + "\n ");
   var args;
   index !== -1 ? (args = htmlArray[index]) : (args = htmlArray[rndHtmlIndex]);
   console.log(
@@ -694,7 +681,14 @@ var tempCodeY = function (e) {
 };
 
 function runBoilerplate(func, args) {
-  console.log("SIPOC Code: line 621\nrunBoilerplate(func:" + func + ", args:" + args + ")\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC Code: line 621\nrunBoilerplate(func:" +
+      func +
+      ", args:" +
+      args +
+      ")\n " +
+      arguments.callee.caller.name,
+  );
   var libName = "app";
   // Check if maxTime exists as a global variable
   const timeRemaining =
