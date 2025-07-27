@@ -5,12 +5,11 @@ var doGet = function (e) {
     return this[libName].handleRequest(e);
   }
 
-  // Determine funcTres
-  var funcTres = e && e.parameter["file"] ? e.parameter["file"] : "uiAccess";
-
   // Logging
   if (e && e.parameter["func"]) {
-    console.log("SIPOC Code: " + JSON.stringify(e) + "\n ");
+    console.log(
+      "SIPOC Code: " + JSON.stringify(e) + "\n ",
+    );
   }
   var funcUno = e.parameter["func"];
   console.log(
@@ -22,26 +21,42 @@ var doGet = function (e) {
     "SIPOC Code: e.parameter['args'] after funcDos:",
     e.parameter["args"] + "\n ",
   );
-  console.log("SIPOC Code: funcDos:", funcDos + "\n ");
+  console.log(
+    "SIPOC Code: funcDos:",
+    funcDos + "\n ",
+  );
   var foobarr = funcUno || "mis";
   var libFunc = foobarr;
   var htmlArray = [
-    `untitled proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS Section3.Challenge1 cors edgarFriendly editor ssForms styling theRoll theWorks uiAccess cGWI`,
+    `untitled proMedia epaWebsite callBack oddChances jsGame checkOnDay uiAccess popUpOpen congressLeg congressMembers jFundamentals gnuFree myGNUFreeJS Section3.Challenge1 cors edgarFriendly editor ssForms styling theRoll theWorks userInterfaceAccess cGWI`,
   ]
     .toString()
     .split(" ");
   var rndHtmlIndex = Math.floor(Math.random() * Math.floor(htmlArray.length));
-  console.log("SIPOC Code: rndHtmlIndex = " + htmlArray[rndHtmlIndex] + "\n ");
-  var rndPage = htmlArray.toString().split(" ")[rndHtmlIndex];
+  console.log(
+    "SIPOC Code: rndHtmlIndex = " +
+      htmlArray[rndHtmlIndex] +
+      "\n ",
+  );
+  var rndPage = htmlArray[rndHtmlIndex];
   var index = htmlArray.findIndex(function (element) {
-    return element === e.parameter["args"] || element === "checkOnDay";
+    return element === e.parameter["args"] || element === rndPage;
   });
+
+  // Determine funcTres
+  var funcTres = e && e.parameter["file"] ? e.parameter["file"] : rndPage;
+
+  
   var tres = htmlArray.findIndex(function (element) {
     return element === funcTres;
   });
-  console.log("SIPOC Code: index:", index + "\ntres", tres + "\n ");
+  console.log(
+    "SIPOC Code: index:",
+    index + "\ntres",
+    tres + "\n ",
+  );
   var args;
-  index !== -1 ? (args = htmlArray[index]) : (args = htmlArray[rndHtmlIndex]);
+  index !== -1 ? (args = htmlArray[index]) : (args = rndPage);
   console.log(
     "SIPOC Code: e {parameter: {func: " +
       e.parameter["func"] +
@@ -209,7 +224,7 @@ var doGet = function (e) {
           border-bottom: none;
       }
   </style>`;
-  console.log("SIPOC Code: line 166\n ");
+  console.log("SIPOC Code: line 166\ndoGet(e: {func: " + e.parameter["func"] + ", args: " + e.parameter["args"] + "}) ");
   return renderTemplate(
     `<html id="wallDoGet">
       <head>
@@ -500,10 +515,7 @@ var doGet = function (e) {
           </head>
           <body class="z-depth-5 content-section responsive-section black center">
             <div id="coApp" class="container">
-              <?!= appL["index"]? appL["index"]["dataStr"]:appL["app"] ?>
-              if (<?!= !appL["index"]["dataStr"] ?>) {
-                <?!= appL["app"] ?>
-              }
+              <?!= appL["app"] ?>
             </div>
             <div class="row">
               <div class="col s10 l10 m10 z-depth-5 push-m2 push-s2 push-l2">
@@ -524,13 +536,15 @@ var doGet = function (e) {
             </div>
             <script>
               console.log("SIPOC Code: line 507\nappL Process: " + <?!= appL ?>);
-              console.log(<?!= appL["index"]? appL["index"]["url"].length:appL.length ?>)
-              if (<?!= appL["index"]? appL["index"]["url"].length === 99:appL.length === 99 ?>) {
-                if (<?!= !appL["app"] ?>) {
+              console.log(<?!= appL["index"]["url"].length ?>)
+              if (<?!= appL["index"]["url"].length === 99 ?>) {
+               
                   document.getElementById("coApp").innerHTML = ""
-                }
-                document.getElementById("indexBeta").src = <?= appL["index"]? appL["index"]["url"]:appL ?>}
-              else {document.getElementById("indexBeta").src = "https://www.clubhouse.com/@fabianlewis?utm_medium=ch_profile&utm_campaign=lhTUtHb2bYqPN3w8EEB7FQ-247242"}
+                document.getElementById("indexBeta").src = <?= appL["index"]["url"] ?>
+              }
+              else {
+                document.getElementById("indexBeta").src = "https://www.clubhouse.com/@fabianlewis?utm_medium=ch_profile&utm_campaign=lhTUtHb2bYqPN3w8EEB7FQ-247242"
+              }
             </script>
           </body>
         </html> `,
@@ -572,6 +586,44 @@ var doGet = function (e) {
                   </html>`,
               ).getContent(),
           ]),
+          DebugM: Logger.log("appL " + JSON.stringify(this[libName][
+            foobarr ||
+              HtmlService.createHtmlOutput(
+                `<html id="foobarr">
+                    <head>
+                      <base target="_self">
+                      <meta charset="utf-8">
+                      <meta name="doGet" content="Company get Function">
+                      <meta name=viewport content="width=device-width, initial-scale=1">
+                      <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+                    </head>
+                    <body>
+                      <script>
+                            document.getElementById("appList").value
+                      </script>
+                    </body>
+                  </html>`,
+              ).getContent()
+          ].apply(this, [
+            e.parameter["args"] || ["oldSEC", args] ||
+              HtmlService.createHtmlOutput(
+                `<html id="args">
+                    <head>
+                      <base target="_self">
+                      <meta charset="utf-8">
+                      <meta name="doGet" content="Company get Function">
+                      <meta name=viewport content="width=device-width, initial-scale=1">
+                      <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+                    </head>
+                    <body>
+                      <script>
+                            document.getElementById("username").value
+                      </script>
+                    </body>
+                  </html>`,
+              ).getContent(),
+          ]))),
+          Debug: Logger.log("thinking..."),
         },
       ),
       subBlob: this[libName].contentApp(
@@ -681,14 +733,7 @@ var tempCodeY = function (e) {
 };
 
 function runBoilerplate(func, args) {
-  console.log(
-    "SIPOC Code: line 621\nrunBoilerplate(func:" +
-      func +
-      ", args:" +
-      args +
-      ")\n " +
-      arguments.callee.caller.name,
-  );
+  console.log("SIPOC Code: line 621\nrunBoilerplate(func:" + func + ", args:" + args + ")\n " + arguments.callee.caller.name);
   var libName = "app";
   // Check if maxTime exists as a global variable
   const timeRemaining =
