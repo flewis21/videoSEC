@@ -7,9 +7,7 @@ var doGet = function (e) {
 
   // Logging
   if (e && e.parameter["func"]) {
-    console.log(
-      "SIPOC Code: " + JSON.stringify(e) + "\n ",
-    );
+    console.log("SIPOC Code: " + JSON.stringify(e) + "\n ");
   }
   var funcUno = e.parameter["func"];
   console.log(
@@ -21,10 +19,7 @@ var doGet = function (e) {
     "SIPOC Code: e.parameter['args'] after funcDos:",
     e.parameter["args"] + "\n ",
   );
-  console.log(
-    "SIPOC Code: funcDos:",
-    funcDos + "\n ",
-  );
+  console.log("SIPOC Code: funcDos:", funcDos + "\n ");
   var foobarr = funcUno || "mis";
   var libFunc = foobarr;
   var htmlArray = [
@@ -33,11 +28,7 @@ var doGet = function (e) {
     .toString()
     .split(" ");
   var rndHtmlIndex = Math.floor(Math.random() * Math.floor(htmlArray.length));
-  console.log(
-    "SIPOC Code: rndHtmlIndex = " +
-      htmlArray[rndHtmlIndex] +
-      "\n ",
-  );
+  console.log("SIPOC Code: rndHtmlIndex = " + htmlArray[rndHtmlIndex] + "\n ");
   var rndPage = htmlArray[rndHtmlIndex];
   var index = htmlArray.findIndex(function (element) {
     return element === e.parameter["args"] || element === rndPage;
@@ -46,15 +37,10 @@ var doGet = function (e) {
   // Determine funcTres
   var funcTres = e && e.parameter["file"] ? e.parameter["file"] : rndPage;
 
-  
   var tres = htmlArray.findIndex(function (element) {
     return element === funcTres;
   });
-  console.log(
-    "SIPOC Code: index:",
-    index + "\ntres",
-    tres + "\n ",
-  );
+  console.log("SIPOC Code: index:", index + "\ntres", tres + "\n ");
   var args;
   index !== -1 ? (args = htmlArray[index]) : (args = rndPage);
   console.log(
@@ -224,7 +210,13 @@ var doGet = function (e) {
           border-bottom: none;
       }
   </style>`;
-  console.log("SIPOC Code: line 166\ndoGet(e: {func: " + e.parameter["func"] + ", args: " + e.parameter["args"] + "}) ");
+  console.log(
+    "SIPOC Code: line 166\ndoGet(e: {func: " +
+      e.parameter["func"] +
+      ", args: " +
+      e.parameter["args"] +
+      "}) ",
+  );
   return renderTemplate(
     `<html id="wallDoGet">
       <head>
@@ -586,10 +578,13 @@ var doGet = function (e) {
                   </html>`,
               ).getContent(),
           ]),
-          DebugM: Logger.log("appL " + JSON.stringify(this[libName][
-            foobarr ||
-              HtmlService.createHtmlOutput(
-                `<html id="foobarr">
+          DebugM: Logger.log(
+            "appL " +
+              JSON.stringify(
+                this[libName][
+                  foobarr ||
+                    HtmlService.createHtmlOutput(
+                      `<html id="foobarr">
                     <head>
                       <base target="_self">
                       <meta charset="utf-8">
@@ -603,11 +598,11 @@ var doGet = function (e) {
                       </script>
                     </body>
                   </html>`,
-              ).getContent()
-          ].apply(this, [
-            e.parameter["args"] || ["oldSEC", args] ||
-              HtmlService.createHtmlOutput(
-                `<html id="args">
+                    ).getContent()
+                ].apply(this, [
+                  e.parameter["args"] || ["oldSEC", args] ||
+                    HtmlService.createHtmlOutput(
+                      `<html id="args">
                     <head>
                       <base target="_self">
                       <meta charset="utf-8">
@@ -621,8 +616,10 @@ var doGet = function (e) {
                       </script>
                     </body>
                   </html>`,
-              ).getContent(),
-          ]))),
+                    ).getContent(),
+                ]),
+              ),
+          ),
           Debug: Logger.log("thinking..."),
         },
       ),
@@ -733,7 +730,14 @@ var tempCodeY = function (e) {
 };
 
 function runBoilerplate(func, args) {
-  console.log("SIPOC Code: line 621\nrunBoilerplate(func:" + func + ", args:" + args + ")\n " + arguments.callee.caller.name);
+  console.log(
+    "SIPOC Code: line 621\nrunBoilerplate(func:" +
+      func +
+      ", args:" +
+      args +
+      ")\n " +
+      arguments.callee.caller.name,
+  );
   var libName = "app";
   // Check if maxTime exists as a global variable
   const timeRemaining =
