@@ -589,7 +589,7 @@ var doGet = function (e) {
                   </html>`,
               ).getContent(),
           ]),
-          debug:  Logger.log(
+          debug: Logger.log(
             "appL " +
               JSON.stringify(
                 this[libName][
@@ -630,7 +630,7 @@ var doGet = function (e) {
                     ).getContent(),
                 ]),
               ),
-            ),
+          ),
         },
       ),
       subBlob: this[libName].contentApp(
