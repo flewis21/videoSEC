@@ -507,7 +507,7 @@ var doGet = function (e) {
           </head>
           <body class="z-depth-5 content-section responsive-section black center">
             <div id="coApp" class="container">
-              <?!= appL["app"] ?>
+              <?!= /<[a-z][\s\S]*>/i.test(JSON.stringify(appL["app"]))? appL["app"]:appL["app"] ?>
             </div>
             <div class="row">
               <div class="col s10 l10 m10 z-depth-5 push-m2 push-s2 push-l2">
@@ -527,12 +527,23 @@ var doGet = function (e) {
               </div>
             </div>
             <script>
-              console.log("SIPOC Code: line 507\nappL Process: " + <?!= appL ?>);
-              console.log(<?!= appL["index"]["url"].length ?>)
-              if (<?!= appL["index"]["url"].length === 99 ?>) {
-               
-                  document.getElementById("coApp").innerHTML = ""
+              var urlRegExString = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)$";
+              console.log(urlRegExString)
+              var urlRegEx = new RegExp(urlRegExString);
+              console.log(urlRegEx)
+              var apll = urlRegEx.test(<?= appL["index"]["url"] ?>);
+              console.log(apll)
+              var apValue = urlRegEx.test(<?= appL["app"] ?>);
+              console.log(apValue)
+              var lmValue = urlRegEx.test(<?= appL ?>);
+              console.log(lmValue)
+              if (apll === true) {
                 document.getElementById("indexBeta").src = <?= appL["index"]["url"] ?>
+              } else if (apValue === true) {
+                document.getElementById("indexBeta").src = <?= appL["app"] ?>
+              } else if (lmValue === true) {
+               
+                document.getElementById("indexBeta").src = <?= appL ?>
               }
               else {
                 document.getElementById("indexBeta").src = "https://www.clubhouse.com/@fabianlewis?utm_medium=ch_profile&utm_campaign=lhTUtHb2bYqPN3w8EEB7FQ-247242"
@@ -578,7 +589,7 @@ var doGet = function (e) {
                   </html>`,
               ).getContent(),
           ]),
-          DebugM: Logger.log(
+          debug:  Logger.log(
             "appL " +
               JSON.stringify(
                 this[libName][
@@ -619,8 +630,7 @@ var doGet = function (e) {
                     ).getContent(),
                 ]),
               ),
-          ),
-          Debug: Logger.log("thinking..."),
+            ),
         },
       ),
       subBlob: this[libName].contentApp(
