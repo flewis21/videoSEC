@@ -613,34 +613,43 @@ var doGet = function (e) {
               </div>
             </div>
             <script>
+              var htmlDoc = <?= HtmlService.createHtmlOutput(appL["app"]).getContent() ?>;
+              // Add a check to ensure the string contains HTML tags
+              var appContainsHtml = htmlDoc.includes('<') && htmlDoc.includes('>');
+              if (appContainsHtml) {
+                var parser = new DOMParser();
+                var validdHtmlDoc = parser.parseFromString(htmlDoc, 'text/html');
+
+                // Check for parser errors
+                var hasErrors = validdHtmlDoc.getElementsByTagName("parsererror").length > 0;
+                if (!hasErrors) {
+                    document.getElementById("coApp").innerHTML = htmlDoc;
+                } 
+                else {
+                  throw new Error("Error validating HTML: " + hasErrors)
+                }
+              }
               var urlRegExString = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)$";
-              var htmlRegExString = "/<[a-z][\s\S]*>/i"
-              console.log(urlRegExString, htmlRegExString);
+              console.log(urlRegExString);
               var urlRegEx = new RegExp(urlRegExString);
-              var htmlRegEx = new RegExp(htmlRegExString);
-              console.log(urlRegEx, htmlRegEx)
+              console.log(urlRegEx)
               var apll = urlRegEx.test(<?= appL["index"]["url"] ?>);
               console.log(apll)
               var apValue = urlRegEx.test(<?= appL["app"] ?>);
               console.log(apValue)
-              var apValueHtml = htmlRegEx.test(<?= appL["app"] ?>);
-              alert(apValueHtml)
               var lmValue = urlRegEx.test(<?= appL ?>);
               console.log(lmValue)
               if (apll === true) {
-                document.getElementById("indexBeta").src = <?= appL["index"]["url"] ?>
-              } else if (<?= appL["app"] ?>) {
-                  if (apValue === true) {
-                    document.getElementById("indexBeta").src = <?= appL["app"] ?>
-                  } else if (apValueHtml === true) {
-                    document.getElementById("coApp").innerHTML = JSON.stringify(<?= appL["app"] ?>);
-                  }
-              } else if (lmValue === true) {
-               
-                document.getElementById("indexBeta").src = <?= appL ?>
+                  document.getElementById("indexBeta").src = <?= appL["index"]["url"] ?>
+              } 
+              else if (apValue === true) {
+                  document.getElementById("indexBeta").src = <?= appL["app"] ?>
+              } 
+              else if (lmValue === true) {
+                  document.getElementById("indexBeta").src = <?= appL ?>
               }
               else {
-                document.getElementById("indexBeta").src = "https://www.clubhouse.com/@fabianlewis?utm_medium=ch_profile&utm_campaign=lhTUtHb2bYqPN3w8EEB7FQ-247242"
+                  document.getElementById("indexBeta").src = "https://www.clubhouse.com/@fabianlewis?utm_medium=ch_profile&utm_campaign=lhTUtHb2bYqPN3w8EEB7FQ-247242"
               }
             </script>
           </body>
