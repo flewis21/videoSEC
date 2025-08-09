@@ -594,9 +594,7 @@ var doGet = function (e) {
               </style
           </head>
           <body class="z-depth-5 content-section responsive-section black center">
-            <div id="coApp" class="container">
-              <?!= /<[a-z][\s\S]*>/i.test(JSON.stringify(appL["app"]))? appL["app"]:appL["app"] ?>
-            </div>
+            <div id="coApp" class="container"></div>
             <div class="row">
               <div class="col s10 l10 m10 z-depth-5 push-m2 push-s2 push-l2">
                 <div class="app-container"> 
@@ -616,19 +614,27 @@ var doGet = function (e) {
             </div>
             <script>
               var urlRegExString = "^https?://(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)$";
-              console.log(urlRegExString)
+              var htmlRegExString = "/<[a-z][\s\S]*>/i"
+              console.log(urlRegExString, htmlRegExString);
               var urlRegEx = new RegExp(urlRegExString);
-              console.log(urlRegEx)
+              var htmlRegEx = new RegExp(htmlRegExString);
+              console.log(urlRegEx, htmlRegEx)
               var apll = urlRegEx.test(<?= appL["index"]["url"] ?>);
               console.log(apll)
               var apValue = urlRegEx.test(<?= appL["app"] ?>);
               console.log(apValue)
+              var apValueHtml = htmlRegEx.test(<?= appL["app"] ?>);
+              alert(apValueHtml)
               var lmValue = urlRegEx.test(<?= appL ?>);
               console.log(lmValue)
               if (apll === true) {
                 document.getElementById("indexBeta").src = <?= appL["index"]["url"] ?>
-              } else if (apValue === true) {
-                document.getElementById("indexBeta").src = <?= appL["app"] ?>
+              } else if (<?= appL["app"] ?>) {
+                  if (apValue === true) {
+                    document.getElementById("indexBeta").src = <?= appL["app"] ?>
+                  } else if (apValueHtml === true) {
+                    document.getElementById("coApp").innerHTML = JSON.stringify(<?= appL["app"] ?>);
+                  }
               } else if (lmValue === true) {
                
                 document.getElementById("indexBeta").src = <?= appL ?>
