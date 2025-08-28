@@ -47,11 +47,8 @@
           } else if (responseData.message.content) {
             document.location.href = responseData.message.content;
           } else {
-            document.getElementById("data-display").textContent = JSON.stringify(
-              responseData,
-              null,
-              2,
-            );
+            document.getElementById("data-display").textContent =
+              JSON.stringify(responseData, null, 2);
           }
         } catch (error) {
           console.error("Error fetching data:", error);
